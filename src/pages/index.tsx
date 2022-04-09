@@ -1,56 +1,39 @@
-import {
-  Link as ChakraLink,
-  Text,
-  Code,
-  List,
-  ListIcon,
-  ListItem,
-} from '@chakra-ui/react'
-import { CheckCircleIcon, LinkIcon } from '@chakra-ui/icons'
+import { Box, Button, Drawer, DrawerBody, DrawerContent, DrawerHeader, DrawerOverlay, Flex, Heading, SimpleGrid, Text, useDisclosure, VStack } from '@chakra-ui/react'
+import React from 'react'
+import { Entity } from '../model/entity'
+import { faker } from '@faker-js/faker'
+import EntityCard from '../components/EntityCard'
+import { EntityDrawer } from '../components/EntityDrawer'
+export default function HomePage() {
 
-import { Hero } from '../components/Hero'
-import { Container } from '../components/Container'
-import { Main } from '../components/Main'
-import { DarkModeSwitch } from '../components/DarkModeSwitch'
-import { CTA } from '../components/CTA'
-import { Footer } from '../components/Footer'
+  const entities = Array(30).fill({
+    id: faker.random.uuid(),
+    title: faker.company.companyName(),
+    description: faker.lorem.lines(2),
+    checkboxOptions: faker.name.jobTitle(),
+    date: faker.date.soon().toISOString(),
+    isActive: faker.random.boolean().toString(),
+    quantity: faker.finance.amount(),
+    radioOption: true,
+    range: faker.finance.amount(),
+  })
 
-const Index = () => (
-  <Container height="100vh">
-    <Hero />
-    <Main>
-      <Text>
-        Example repository of <Code>Next.js</Code> + <Code>chakra-ui</Code> +{' '}
-        <Code>TypeScript</Code>.
-      </Text>
+  return (
+    <>
+      <Box p='5'>
+        <VStack spacing={5}>
 
-      <List spacing={3} my={0}>
-        <ListItem>
-          <ListIcon as={CheckCircleIcon} color="green.500" />
-          <ChakraLink
-            isExternal
-            href="https://chakra-ui.com"
-            flexGrow={1}
-            mr={2}
-          >
-            Chakra UI <LinkIcon />
-          </ChakraLink>
-        </ListItem>
-        <ListItem>
-          <ListIcon as={CheckCircleIcon} color="green.500" />
-          <ChakraLink isExternal href="https://nextjs.org" flexGrow={1} mr={2}>
-            Next.js <LinkIcon />
-          </ChakraLink>
-        </ListItem>
-      </List>
-    </Main>
-
-    <DarkModeSwitch />
-    <Footer>
-      <Text>Next ❤️ Chakra</Text>
-    </Footer>
-    <CTA />
-  </Container>
-)
-
-export default Index
+          <Heading>Nextjs CRUD</Heading>
+          <EntityDrawer />
+          <SimpleGrid columns={6} spacing={5}>
+            {entities.map((entity) => {
+              return (
+                <EntityCard data={entity} />
+              )
+            })}
+          </SimpleGrid>
+        </VStack>
+      </Box>
+    </>
+  )
+}
