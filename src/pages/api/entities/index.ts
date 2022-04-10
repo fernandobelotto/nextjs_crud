@@ -17,11 +17,10 @@ export default async function handler(req, res) {
       break;
     case "POST":
       try {
-        const entity = await Entity.create(
-          req.body
-        );
+        const entity = await Entity.create(req.body);
         res.status(201).json({ success: true, data: entity });
       } catch (error) {
+        console.log(error);
         res.status(400).json({ success: false });
       }
       break;

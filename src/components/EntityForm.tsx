@@ -25,18 +25,6 @@ import { PasswordInput } from "./PasswordInput";
 
 export function EntityForm() {
 
-  const postData = async (form) => {
-    try {
-      const res = await fetch('/api/pets', {
-        method: 'POST',
-        body: JSON.stringify(form),
-      })
-
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
   return (
     <>
       <Stack spacing="24px">

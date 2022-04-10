@@ -1,45 +1,101 @@
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from "react-hook-form";
 import {
-    FormErrorMessage,
-    FormLabel,
-    FormControl,
-    Input,
-    Button,
-} from '@chakra-ui/react'
+  FormErrorMessage,
+  FormLabel,
+  FormControl,
+  Input,
+  Button,
+  Radio,
+  RadioGroup,
+  Switch,
+  PinInput,
+  PinInputField,
+  NumberDecrementStepper,
+  NumberIncrementStepper,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+} from "@chakra-ui/react";
 
-export default function ReactForm() {
+export default function ReactForm({ errors, register, control }) {
+  return (
+    <>
+      <FormControl isInvalid={errors.title}>
+        <FormLabel htmlFor="title">Title</FormLabel>
+        <Input
+          id="title"
+          placeholder="title"
+          {...register("title", {
+            required: "This is required",
+            minLength: { value: 4, message: "Minimum length should be 4" },
+          })}
+        />
+        <FormErrorMessage>
+          {errors.title && errors.title.message}
+        </FormErrorMessage>
+      </FormControl>
 
-    const {
-        handleSubmit,
-        control,
-        register,
-        formState: { errors, isSubmitting },
-    } = useForm()
+      {/* SWITCH INPUT */}
+      <FormControl isInvalid={errors.isActive}>
+        <FormLabel htmlFor="isActive">Active?</FormLabel>
+        <Switch {...register("isActive")}></Switch>
+        <FormErrorMessage>
+          {errors.isActive && errors.isActive.message}
+        </FormErrorMessage>
+      </FormControl>
 
-    function onSubmit(values) {
-        console.log(values)
-    }
-
-    return (
-        <form onSubmit={handleSubmit(onSubmit)}>
-            <FormControl isInvalid={errors.name}>
-                <FormLabel htmlFor='name'>First name</FormLabel>
-                <Input
-                    id='name'
-                    placeholder='name'
-                    {...register('name', {
-                        required: 'This is required',
-                        minLength: { value: 4, message: 'Minimum length should be 4' },
-                    })}
+      {/* PIN INPUT */}
+      {/* <FormControl isInvalid={errors.pin}>
+                <FormLabel htmlFor='pin'>Pin</FormLabel>
+                <Controller
+                    control={control}
+                    name="pin"
+                    render={({ field }) => {
+                        const { value, onChange } = field
+                        return (
+                            <PinInput type="alphanumeric" otp value={value} onChange={onChange} >
+                                <PinInputField />
+                                <PinInputField />
+                                <PinInputField />
+                                <PinInputField />
+                            </PinInput>
+                        )
+                    }}
                 />
                 <FormErrorMessage>
-                    {errors.name && errors.name.message}
+                    {errors.pin && errors.pin.message}
                 </FormErrorMessage>
-            </FormControl>
+            </FormControl> */}
 
-            <Button mt={4} colorScheme='teal' isLoading={isSubmitting} type='submit'>
-                Submit
-            </Button>
-        </form>
-    )
+      <FormControl isInvalid={errors.quantity}>
+        <FormLabel htmlFor="quantity">Quantity</FormLabel>
+        <Controller
+          control={control}
+          name="quantity"
+          render={({ field }) => {
+            const { value, onChange } = field;
+            return (
+              <>
+                {/* here, you can choose between string or number in final result */}
+                <NumberInput
+                  allowMouseWheel
+                  onChange={(string, number) => onChange(number)}
+                  value={value}
+                >
+                  <NumberInputField />
+                  <NumberInputStepper>
+                    <NumberIncrementStepper />
+                    <NumberDecrementStepper />
+                  </NumberInputStepper>
+                </NumberInput>
+              </>
+            );
+          }}
+        />
+        <FormErrorMessage>
+          {errors.quantity && errors.quantity.message}
+        </FormErrorMessage>
+      </FormControl>
+    </>
+  );
 }

@@ -7,7 +7,6 @@ import { ChakraModal } from "../components/CustomModal";
 import EntityCard from "../components/EntityCard";
 import { EntityDrawer } from "../components/EntityDrawer";
 export default function HomePage({ entities }) {
-
   return (
     <>
       <Box p="5">
@@ -27,16 +26,15 @@ export default function HomePage({ entities }) {
 }
 
 export async function getServerSideProps() {
-  await dbConnect()
+  await dbConnect();
 
   /* find all the data in our database */
-  const result = await Entity.find({})
+  const result = await Entity.find({});
   const entities = result.map((doc) => {
-    const entity = doc.toObject()
-    entity._id = entity._id.toString()
-    return entity
-  })
+    const entity = doc.toObject();
+    entity._id = entity._id.toString();
+    return entity;
+  });
 
-  return { props: { entities: entities } }
+  return { props: { entities: entities } };
 }
-

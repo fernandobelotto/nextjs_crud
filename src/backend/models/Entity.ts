@@ -8,8 +8,6 @@ const EntitySchema = new mongoose.Schema({
   },
   description: {
     type: String,
-    required: [true, "Please provide the description"],
-    maxlength: [60, "Owner's Name cannot be more than 60 characters"],
   },
   quantity: {
     type: Number,
@@ -18,8 +16,8 @@ const EntitySchema = new mongoose.Schema({
     type: Boolean,
   },
   date: {
-    type: Date
-  }
+    type: String,
+  },
 });
 
 export default mongoose.models.Entity || mongoose.model("Entity", EntitySchema);

@@ -14,7 +14,7 @@ export default function EntityCard({ data }: any) {
                 <Text fontWeight="bold" color="gray.500">
                   {key}
                 </Text>
-                <Text>{value}</Text>
+                <Text>{value.toString()}</Text>
               </>
             );
           })}
